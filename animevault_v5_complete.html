@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08090d">
+<title>AnimeVault</title>
+<style>
+:root{--bg:#07080c;--card:#11131a;--card2:#191c25;--text:#f7f7fa;--muted:#9da1ae;--accent:#8b6cff;--accent2:#6f52ff;--line:#292d39;--good:#70dfaa;--danger:#ff7187}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% -5%,#38276a 0,#07080c 38%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Inter,Arial,sans-serif;min-height:100vh}
+button,input,select,textarea{font:inherit}button{border:0;color:inherit;cursor:pointer}.app{max-width:920px;margin:auto;padding:14px 15px calc(100px + env(safe-area-inset-bottom))}
+header{display:flex;align-items:center;justify-content:space-between;padding:8px 2px 16px}.logo{font-weight:950;font-size:26px;letter-spacing:-1px}.logo span{color:var(--accent)}.icon{width:44px;height:44px;border-radius:14px;background:var(--card2);border:1px solid var(--line);font-size:24px}
+.hero{background:linear-gradient(135deg,#171323,#10121a 65%);border:1px solid #342957;border-radius:25px;padding:21px;box-shadow:0 18px 50px #0006}.eyebrow{color:#b9abff;font-size:11px;font-weight:900;letter-spacing:1.6px;text-transform:uppercase}.hero h1{font-size:31px;line-height:1.03;margin:7px 0}.hero p{color:var(--muted);line-height:1.45;margin:8px 0 18px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{background:#fff8;border:1px solid #fff1;border-radius:15px;padding:11px}.stat b{display:block;font-size:20px}.stat small{color:var(--muted)}
+.section{display:flex;justify-content:space-between;align-items:center;margin:24px 2px 11px}.section h2{font-size:19px;margin:0}.section button{background:none;color:#b9abff;font-weight:800;font-size:13px}.search{display:flex;gap:8px;margin-bottom:11px}.search input,.sheet input,.sheet select,.sheet textarea{width:100%;background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:14px;padding:12px 13px;outline:none}.tabs{display:flex;gap:7px;overflow:auto;margin-bottom:12px}.tabs button{white-space:nowrap;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:9px 12px;color:var(--muted);font-size:12px}.tabs button.active{background:#292044;color:#d8d0ff;border-color:#735ee0}
+.schedule{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:15px}.schedule-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.live{color:var(--good);font-size:11px;font-weight:900}.next-list{display:grid;gap:8px}.next{display:flex;align-items:center;gap:11px;background:#fff6;border:1px solid #fff0;border-radius:15px;padding:9px}.next-poster{width:44px;height:59px;border-radius:9px;background:linear-gradient(135deg,#34265f,#181a25);background-size:cover;background-position:center;flex:none}.next-info{min-width:0;flex:1}.next-info b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.next-info small{display:block;color:var(--muted);margin-top:3px}.countdown{font-variant-numeric:tabular-nums;color:#c8beff;font-weight:900;margin-top:3px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.anime{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden}.poster{height:205px;background:linear-gradient(135deg,#31265d,#161822);background-size:cover;background-position:center;position:relative;display:flex;align-items:flex-end;padding:12px}.poster:after{content:"";position:absolute;inset:38% 0 0;background:linear-gradient(transparent,#000e)}.badge{position:absolute;z-index:2;top:10px;left:10px;background:#111b;border:1px solid #fff2;color:#cfc6ff;border-radius:9px;padding:5px 8px;font-size:10px;font-weight:900}.poster-title{position:relative;z-index:2;font-weight:900;font-size:15px;text-shadow:0 2px 8px #000}.info{padding:11px}.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-bottom:7px}.progress{height:5px;background:#292c36;border-radius:10px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--accent2),#c1aeff)}.episode-next{margin-top:8px;background:#fff6;border-radius:10px;padding:8px;color:#c7c0dd;font-size:11px}.episode-next strong{color:#fff}.actions{display:flex;gap:7px;margin-top:9px}.actions button{flex:1;padding:9px;border-radius:11px;background:var(--card2);font-size:12px}.actions .watch{background:var(--accent2);font-weight:900}.actions .del{flex:0 0 42px;color:#ff9aaa}.empty{grid-column:1/-1;background:var(--card);border:1px dashed #343846;border-radius:20px;padding:28px;text-align:center;color:var(--muted)}
+nav{position:fixed;bottom:0;left:0;right:0;background:#0b0c11ed;backdrop-filter:blur(20px);border-top:1px solid var(--line);padding:8px max(15px,calc((100vw - 920px)/2));padding-bottom:calc(8px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(4,1fr);z-index:20}nav button{background:none;color:var(--muted);padding:6px;font-size:10px}nav button.active{color:#c5b9ff}nav span{display:block;font-size:19px;margin-bottom:2px}
+.modal{position:fixed;inset:0;background:#000b;display:none;align-items:flex-end;z-index:30}.modal.open{display:flex}.sheet{width:100%;max-width:920px;margin:auto;background:#11131a;border:1px solid var(--line);border-radius:25px 25px 0 0;padding:19px 15px calc(27px + env(safe-area-inset-bottom));max-height:94vh;overflow:auto}.sheet h2{margin:0 0 14px}.sheet label{display:block;color:var(--muted);font-size:11px;font-weight:800;margin:9px 2px 4px}.row{display:flex;gap:8px}.row>*{flex:1}.primary,.secondary{width:100%;margin-top:12px;padding:13px;border-radius:14px}.primary{background:var(--accent2);font-weight:900}.secondary{background:var(--card2)}.searchbox{display:flex;gap:8px}.searchbox button{background:var(--accent2);border-radius:13px;padding:0 15px;font-weight:900}.lookup{display:none;margin-top:9px;background:#191c25;border:1px solid var(--line);border-radius:14px;padding:9px;gap:9px;align-items:center}.lookup.show{display:flex}.lookup img{width:45px;height:62px;object-fit:cover;border-radius:8px}.lookup b{display:block}.lookup small{color:var(--muted)}.provider{display:grid;grid-template-columns:1fr 1fr;gap:8px}.provider button{padding:10px;border-radius:12px;background:#1b1e27;border:1px solid var(--line);font-size:12px}.provider button.sel{border-color:#8b76ff;background:#292044;color:#d8d0ff}.note{font-size:11px;color:var(--muted);line-height:1.45;margin-top:9px}
+.detail{position:fixed;inset:0;background:var(--bg);z-index:15;display:none;overflow:auto}.detail.open{display:block}.detail-wrap{max-width:920px;margin:auto;padding:15px 15px 100px}.back{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:9px 12px;margin-bottom:14px}.detail-top{display:flex;gap:15px}.detail-poster{width:145px;height:205px;border-radius:18px;background:linear-gradient(135deg,#35275f,#1b1d28);background-size:cover;background-position:center;flex:none}.detail h1{font-size:26px;line-height:1.05;margin:3px 0 8px}.pill{display:inline-block;background:#292044;color:#cfc5ff;border-radius:9px;padding:5px 8px;font-size:10px;font-weight:900}.detail-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-top:13px}.detail-card h3{margin:0 0 9px;font-size:15px}.big-count{font-size:28px;font-weight:950;color:#c8bfff}.detail-actions{display:flex;gap:7px;margin-top:13px}.detail-actions button{flex:1;padding:11px;border-radius:12px;background:var(--card2)}.detail-actions .watch{background:var(--accent2);font-weight:900}.genres{display:flex;flex-wrap:wrap;gap:6px}.genre{font-size:10px;background:#25202f;color:#c8bdff;border-radius:9px;padding:5px 7px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px}.calday{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:8px 3px;text-align:center;min-height:55px}.calday.today{border-color:#735ee0;background:#211a35}.calday b{display:block;color:var(--muted);font-size:10px}.calday strong{font-size:16px}.calday i{display:block;width:5px;height:5px;border-radius:50%;background:var(--accent);margin:4px auto 0}.day-title{font-size:11px;color:#b9abff;font-weight:900;margin:14px 2px 7px}.day-item{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:11px;margin-bottom:8px}.day-item small{color:var(--muted)}
+@media(min-width:650px){.grid{grid-template-columns:repeat(3,1fr)}.poster{height:250px}.detail-poster{width:190px;height:270px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="logo">Anime<span>Vault</span></div><button class="icon" onclick="openModal()">＋</button></header>
+<section class="hero"><div class="eyebrow">твоя аніме-бібліотека</div><h1>Дивись. Відстежуй.<br>Не пропускай серії.</h1><p>Постери, інформація, реальний розклад онгоінгів, таймери та твої посилання — автоматично.</p><div class="stats"><div class="stat"><b id="total">0</b><small>в бібліотеці</small></div><div class="stat"><b id="watching">0</b><small>дивлюсь</small></div><div class="stat"><b id="episodes">0</b><small>серій</small></div></div></section>
+<div class="section"><h2>⏱ Найближчі виходи</h2><button onclick="showPage('schedule')">Весь розклад</button></div>
+<div id="schedule"></div>
+<div class="section"><h2>Мої аніме</h2><button onclick="openModal()">+ Додати</button></div>
+<div class="search"><input id="search" placeholder="🔎 Пошук у бібліотеці..." oninput="renderGrid()"></div>
+<div class="tabs"><button class="active" onclick="setStatus('all',this)">Усі</button><button onclick="setStatus('watching',this)">Дивлюсь</button><button onclick="setStatus('planned',this)">Заплановані</button><button onclick="setStatus('completed',this)">Завершені</button></div>
+<div id="grid" class="grid"></div>
+</div>
+
+<div class="detail" id="detail"><div class="detail-wrap"><button class="back" onclick="closeDetail()">← Назад</button><div id="detailContent"></div></div></div>
+<div class="detail" id="schedulePage"><div class="detail-wrap"><button class="back" onclick="showPage('home')">← Головна</button><h1 style="margin:8px 0">Розклад виходу</h1><p style="color:var(--muted)">Актуальні дані беруться з AniList. Таймери рахуються до секунд.</p><div id="fullSchedule"></div></div></div>
+
+<nav><button class="active" id="navHome" onclick="showPage('home')"><span>⌂</span>Головна</button><button id="navSchedule" onclick="showPage('schedule')"><span>◷</span>Розклад</button><button onclick="openModal()"><span>＋</span>Додати</button><button onclick="alert('У картці аніме можна відкрити деталі, додати серію або перейти на твій сайт перегляду.')"><span>⚙</span>Ще</button></nav>
+
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="sheet">
+<h2>Додати аніме</h2>
+<label>Назва аніме</label>
+<div class="searchbox"><input id="name" placeholder="Наприклад: One Piece"><button type="button" onclick="lookupAnime()">Знайти</button></div>
+<div id="lookup" class="lookup"></div>
+<div class="row"><div><label>Поточна серія</label><input id="ep" type="number" min="0" value="0"></div><div><label>Всього серій</label><input id="totalEp" type="number" min="0" placeholder="Авто"></div></div>
+<label>Постер URL — необов'язково</label><input id="poster" placeholder="Авто після пошуку">
+<label>Де дивитися</label><div class="provider"><button id="pHd" onclick="chooseProvider('hdrezka')">HDrezka</button><button id="pCustom" onclick="chooseProvider('custom')">Інший сайт</button></div>
+<input id="link" placeholder="URL сторінки аніме" style="margin-top:8px">
+<select id="status" style="margin-top:8px"><option value="watching">Дивлюсь</option><option value="planned">Заплановано</option><option value="completed">Завершено</option></select>
+<button class="primary" onclick="addAnime()">Додати в бібліотеку</button><button class="secondary" onclick="closeModal()">Скасувати</button>
+<div class="note">Після пошуку сайт автоматично бере постер, опис, жанри, рейтинг, кількість серій і наступний офіційний вихід. Дані зберігаються локально у твоєму браузері.</div>
+</div></div>
+
+<script>
+const KEY='animevault-v5';
+let data=JSON.parse(localStorage.getItem(KEY)||localStorage.getItem('animevault-v3')||'[]'),filter='all',provider='hdrezka',found=null;
+const days=['Неділя','Понеділок','Вівторок','Середа','Четвер','П’ятниця','Субота'];
+const ANILIST='https://graphql.anilist.co';
+
+function save(){localStorage.setItem(KEY,JSON.stringify(data));render()}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function safe(s){return String(s||'').replaceAll("'","%27").replaceAll('"','&quot;')}
+function openModal(){modal.classList.add('open');chooseProvider('hdrezka');found=null;lookup.innerHTML='';lookup.classList.remove('show');setTimeout(()=>name.focus(),80)}
+function closeModal(){modal.classList.remove('open')}
+function chooseProvider(p){provider=p;pHd.classList.toggle('sel',p==='hdrezka');pCustom.classList.toggle('sel',p==='custom')}
+function fmt(ms){if(ms<=0)return'виходить зараз';let s=Math.floor(ms/1000),d=Math.floor(s/86400);s%=86400;let h=Math.floor(s/3600);s%=3600;let m=Math.floor(s/60);s%=60;return`${d?d+'д ':''}${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
+function dateAt(sec){return sec?new Date(sec*1000):null}
+async function gql(query,variables){let r=await fetch(ANILIST,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({query,variables})});if(!r.ok)throw Error('API');let j=await r.json();if(j.errors)throw Error(j.errors[0]?.message||'API');return j.data}
+const searchQuery=`query($q:String){Page(perPage:8){media(search:$q,type:ANIME,sort:[SEARCH_MATCH],isAdult:false){id title{romaji english native}coverImage{large}description(asHtml:false)genres averageScore episodes status format nextAiringEpisode{airingAt episode timeUntilAiring}startDate{year month day}season seasonYear siteUrl}}}`;
+const fullQuery=`query($id:Int){Media(id:$id,type:ANIME){id title{romaji english native}coverImage{extraLarge large}description(asHtml:false)genres averageScore episodes status format duration countryOfOrigin siteUrl startDate{year month day}season seasonYear nextAiringEpisode{airingAt episode timeUntilAiring}airingSchedule(notYetAired:true,perPage:10){nodes{airingAt episode timeUntilAiring}}}}`;
+
+async function lookupAnime(){
+ const q=name.value.trim();if(!q)return alert('Введи назву аніме');
+ lookup.classList.add('show');lookup.innerHTML='<div>🔎 Шукаю…</div>';
+ try{
+  const d=await gql(searchQuery,{q});
+  const arr=d.Page.media||[];
+  if(!arr.length){lookup.innerHTML='<div>Нічого не знайшов. Спробуй іншу назву.</div>';return}
+  lookup.innerHTML=arr.map((a,i)=>`<button type="button" style="display:flex;width:100%;text-align:left;background:none;padding:5px;border-radius:10px;gap:9px" onclick="selectAnime(${i})"><img src="${safe(a.coverImage.large)}" style="width:42px;height:58px;object-fit:cover;border-radius:7px"><span><b>${esc(a.title.english||a.title.romaji)}</b><small style="display:block;color:var(--muted);margin-top:4px">${esc(a.status||'')} · ${a.episodes||'?'} серій · ${a.averageScore?a.averageScore+'/100':''}</small></span></button>`).join('');
+  window.lookupResults=arr;
+ }catch(e){lookup.innerHTML='<div>⚠️ Не вдалося підключитися до бази аніме. Спробуй ще раз.</div>'}
+}
+async function selectAnime(i){
+ const a=window.lookupResults?.[i];if(!a)return;
+ try{
+  const d=await gql(fullQuery,{id:a.id});found=d.Media;
+  name.value=found.title.english||found.title.romaji||'';
+  poster.value=found.coverImage.extraLarge||found.coverImage.large||'';
+  totalEp.value=found.episodes||'';
+  lookup.innerHTML=`<img src="${safe(poster.value)}"><div><b>${esc(name.value)}</b><small>${esc(found.genres?.join(' · ')||'')}<br>${found.averageScore?found.averageScore+'/100 · ':''}${esc(found.status||'')}</small></div>`;
+ }catch(e){found=a;poster.value=a.coverImage.large||'';totalEp.value=a.episodes||''}
+}
+async function addAnime(){
+ const n=name.value.trim();if(!n)return alert('Vкажи назву або знайди аніме');
+ if(!found){await lookupAnime();if(!window.lookupResults?.length)return}
+ let f=found;
+ if(f?.id&&!f.airingSchedule){try{f=(await gql(fullQuery,{id:f.id})).Media}catch(e){}}
+ const item={id:Date.now(),anilistId:f?.id||null,name:n,originalTitle:f?.title?.romaji||'',ep:+ep.value||0,total:+totalEp.value||f?.episodes||0,poster:poster.value.trim(),genres:f?.genres||[],score:f?.averageScore||0,description:f?.description||'',status:status.value,siteUrl:f?.siteUrl||'',link:link.value.trim(),provider,airing:f?.airingSchedule?.nodes||[],next:f?.nextAiringEpisode||null,addedAt:Date.now()};
+ data.unshift(item);save();closeModal();
+}
+function nextRelease(a){if(a.next?.airingAt)return dateAt(a.next.airingAt);if(a.airing?.length){let x=a.airing.find(z=>z.airingAt*1000>Date.now());return dateAt(x?.airingAt)}return null}
+function nextEpisode(a){let n=nextRelease(a);if(a.next?.episode)return a.next.episode;if(a.airing?.length){let x=a.airing.find(z=>z.airingAt*1000>Date.now());if(x)return x.episode}return a.ep+1}
+function pct(a){return a.total?Math.min(100,a.ep/a.total*100):0}
+function card(a){
+ let n=nextRelease(a),ne=nextEpisode(a),st=a.status==='completed'?'Завершено':a.status==='planned'?'Заплановано':'Онгоінг';
+ return `<article class="anime"><div class="poster" ${a.poster?`style="background-image:url('${safe(a.poster)}')"`:''} onclick="openDetail(${a.id})"><span class="badge">${st}</span><div class="poster-title">${esc(a.name)}</div></div><div class="info"><div class="meta"><span>Серія ${a.ep}${a.total?' / '+a.total:''}</span><span>${Math.round(pct(a))}%</span></div><div class="progress"><i style="width:${pct(a)}%"></i></div><div class="episode-next">${n?`Наступна: <strong>серія ${ne}</strong> · ${fmt(n-new Date())}`:'Розклад не знайдено'}</div><div class="actions">${a.link?`<button class="watch" onclick="openLink(${a.id})">▶ Дивитись</button>`:`<button class="watch" onclick="inc(${a.id})">＋ Серія</button>`}<button class="del" onclick="removeAnime(${a.id})">🗑</button></div></div></article>`
+}
+function renderGrid(){let q=search.value.toLowerCase(),list=data.filter(a=>(filter==='all'||a.status===filter)&&a.name.toLowerCase().includes(q));grid.innerHTML=list.length?list.map(card).join(''):`<div class="empty">🍿<h3>Тут поки порожньо</h3><div>Додай перше аніме через «＋».</div></div>`;total.textContent=data.length;watching.textContent=data.filter(a=>a.status==='watching').length;episodes.textContent=data.reduce((s,a)=>s+(+a.ep||0),0)}
+function renderSchedule(){
+ let list=data.filter(a=>a.status!=='completed'&&nextRelease(a)).sort((a,b)=>nextRelease(a)-nextRelease(b)).slice(0,7);
+ schedule.innerHTML=list.length?`<div class="schedule"><div class="schedule-head"><b>Найближчі виходи</b><span class="live">● АВТО-ТАЙМЕР</span></div><div class="next-list">${list.map(a=>{let n=nextRelease(a);return`<div class="next"><div class="next-poster" ${a.poster?`style="background-image:url('${safe(a.poster)}')"`:''}></div><div class="next-info"><b>${esc(a.name)} — серія ${nextEpisode(a)}</b><small>${n.toLocaleDateString('uk-UA',{weekday:'long',day:'2-digit',month:'2-digit'})} · ${n.toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'})}</small><div class="countdown">${fmt(n-new Date())}</div></div></div>`}).join('')}</div></div>`:`<div class="schedule"><div class="next"><div style="font-size:30px">📅</div><div class="next-info"><b>Розклад порожній</b><small>Знайди аніме через пошук — онгоінги підтягнуть наступний офіційний вихід автоматично.</small></div></div></div>`
+}
+function fullSchedule(){
+ let arr=[];data.forEach(a=>(a.airing||[]).forEach(x=>{if(x.airingAt*1000>Date.now())arr.push({a,x})}));arr.sort((u,v)=>u.x.airingAt-v.x.airingAt);
+ if(!arr.length){fullScheduleEl.innerHTML='<div class="detail-card">Немає майбутніх виходів у твоїй бібліотеці.</div>';return}
+ let grouped={};arr.slice(0,30).forEach(o=>{let d=new Date(o.x.airingAt*1000),k=d.toISOString().slice(0,10);(grouped[k]??=[]).push(o)});
+ fullScheduleEl.innerHTML=Object.entries(grouped).map(([k,items])=>{let d=new Date(k+'T12:00:00');return`<div class="day-title">${d.toLocaleDateString('uk-UA',{weekday:'long',day:'2-digit',month:'long'})}</div>`+items.map(o=>{let d2=new Date(o.x.airingAt*1000);return`<div class="day-item"><b>${esc(o.a.name)} — серія ${o.x.episode}</b><small>${d2.toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'})} · через ${fmt(o.x.airingAt*1000-Date.now())}</small></div>`}).join('')}).join('')
+}
+function openDetail(id){
+ let a=data.find(x=>x.id===id);if(!a)return;let n=nextRelease(a);
+ detailContent.innerHTML=`<div class="detail-top"><div class="detail-poster" ${a.poster?`style="background-image:url('${safe(a.poster)}')"`:''}></div><div><span class="pill">${a.status==='watching'?'Онгоінг':a.status==='planned'?'Заплановано':'Завершено'}</span><h1>${esc(a.name)}</h1><div style="color:var(--muted)">Серія ${a.ep}${a.total?' / '+a.total:''}${a.score?' · '+a.score+'/100':''}</div><div class="detail-actions">${a.link?`<button class="watch" onclick="openLink(${a.id})">▶ Дивитись</button>`:''}<button onclick="inc(${a.id})">＋ Серія</button></div></div></div>${a.genres?.length?`<div class="detail-card"><div class="genres">${a.genres.map(g=>`<span class="genre">${esc(g)}</span>`).join('')}</div></div>`:''}<div class="detail-card"><h3>Наступний вихід</h3>${n?`<div style="color:var(--muted)">${n.toLocaleDateString('uk-UA',{weekday:'long',day:'2-digit',month:'2-digit'})} · ${n.toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'})}</div><div class="big-count">${fmt(n-new Date())}</div><div style="color:var(--muted)">Серія ${nextEpisode(a)}</div>`:'<div style="color:var(--muted)">Немає даних про майбутній вихід.</div>'}</div>${a.description?`<div class="detail-card"><h3>Про аніме</h3><div style="color:var(--muted);line-height:1.5">${esc(a.description)}</div></div>`:''}<div class="detail-card"><h3>Перегляд</h3><div style="color:var(--muted)">${a.link?(a.provider==='hdrezka'?'HDrezka':'Твій сайт'):'Посилання не додано'}</div><div class="detail-actions">${a.link?`<button class="watch" onclick="openLink(${a.id})">▶ Відкрити</button>`:''}<button onclick="editLink(${a.id})">🔗 Змінити сайт</button></div></div><div class="detail-card"><button style="width:100%;padding:12px;border-radius:13px;background:#24151a;color:#ff9aaa" onclick="removeAnime(${a.id});closeDetail()">🗑 Видалити з бібліотеки</button></div>`;
+ detail.classList.add('open')
+}
+function closeDetail(){detail.classList.remove('open')}
+function inc(id){let a=data.find(x=>x.id===id);if(!a)return;a.ep++;if(a.total&&a.ep>=a.total){a.ep=a.total;a.status='completed'}save()}
+function removeAnime(id){if(confirm('Видалити це аніме?')){data=data.filter(a=>a.id!==id);save()}}
+function openLink(id){let a=data.find(x=>x.id===id);if(a?.link)window.open(a.link,'_blank');else alert('Додай URL сайту перегляду в деталях аніме.')}
+function editLink(id){let a=data.find(x=>x.id===id);if(!a)return;let u=prompt('Встав URL сторінки аніме:',a.link||'');if(u!==null){a.link=u.trim();save();openDetail(id)}}
+function setStatus(s,el){filter=s;document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));el.classList.add('active');renderGrid()}
+function showPage(p){detail.classList.remove('open');schedulePage.classList.toggle('open',p==='schedule');navHome.classList.toggle('active',p==='home');navSchedule.classList.toggle('active',p==='schedule');if(p==='schedule')fullSchedule()}
+renderGrid();renderSchedule();
+setInterval(()=>{renderGrid();renderSchedule();if(schedulePage.classList.contains('open'))fullSchedule()},1000);
+</script>
+</body>
+</html>
